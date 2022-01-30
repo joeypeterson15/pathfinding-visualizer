@@ -1,8 +1,10 @@
+import './Node.css'
 
-
-function Node () {
+function Node ({isStart, isFinish, row, col, index}) {
     return (
-        null
+        <div className='node'>
+
+        </div>
     )
 }
 

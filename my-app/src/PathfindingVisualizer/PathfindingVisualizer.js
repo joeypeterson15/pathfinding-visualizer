@@ -16,6 +16,8 @@ function PathfindingVisualizer () {
                 const currentNode = {
                     col,
                     row,
+                    isStart: row === 10 && col === 5,
+                    isFinish: row === 10 && col === 45,
                 }
                 currentRow.push(currentNode)
             }
@@ -28,7 +30,19 @@ function PathfindingVisualizer () {
         <div className="grid">
             {nodes.map((row) => (
                 <div>
-                    {row.map((node, nodeIndex) => <Node />)}
+                    {row.map((node, nodeIndex) => {
+                        const {isStart, isFinish} = node
+                        return (
+                            <Node
+                                isStart = {isStart}
+                                isFinish = {isFinish}
+                                row = {node.row}
+                                col = {node.col}
+                                index = {nodeIndex}
+                            />
+
+                        )
+                        })}
                 </div>
             ))}
         </div>
