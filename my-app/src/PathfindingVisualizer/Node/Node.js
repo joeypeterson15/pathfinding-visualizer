@@ -1,8 +1,11 @@
 import './Node.css'
 
 function Node ({isStart, isFinish, row, col, index}) {
+
+    const extraClass = isFinish ? 'finish' : isStart ? 'start' : ''
+
     return (
-        <div className='node'>
+        <div className={`node ${extraClass}`}>
 
         </div>
     )

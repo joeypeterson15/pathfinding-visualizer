@@ -16,6 +16,7 @@ function PathfindingVisualizer () {
                 const currentNode = {
                     col,
                     row,
+                    //this is a boolean we can pass into node
                     isStart: row === 10 && col === 5,
                     isFinish: row === 10 && col === 45,
                 }
