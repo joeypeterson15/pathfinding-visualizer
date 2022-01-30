@@ -1,3 +1,17 @@
 .grid {
     margin: 100px 0 0;
   }
+
+#visualize-button {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    background-color: aqua;
+    color: white;
+    border: 0.2px solid rgb(214, 214, 214);
+    height: 8rem;
+    width: 10rem;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+}
