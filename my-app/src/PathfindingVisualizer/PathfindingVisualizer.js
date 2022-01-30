@@ -29,7 +29,7 @@ function PathfindingVisualizer () {
         setGrid(setup)
     })
 
-    
+
 
     function animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder) {
         for (let i = 0; i <= visitedNodesInOrder.length; i++) {
@@ -59,8 +59,9 @@ function PathfindingVisualizer () {
 
       function visualizeDijkstra() {
         const {grid} = this.state;
-        const startNode = grid[START_NODE_ROW][START_NODE_COL];
-        const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
+        // const startNode = grid[START_NODE_ROW][START_NODE_COL];
+        const startNode = grid[10][5];
+        const finishNode = grid[10][45];
         const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
         const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
         this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
