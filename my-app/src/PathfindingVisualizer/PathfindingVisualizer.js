@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react'
 import Node from './Node/Node.js'
+import {dijkstra, getNodesInShortestPathOrder} from '../algorithms/dijkstra';
+
 
 import './PathfindingVisualizer.css'
 
 
 function PathfindingVisualizer () {
 
-    const [nodes, setNodes] = useState([])
+    const [grid, setGrid] = useState([])
 
     useEffect(() => {
         const setup = []
@@ -24,12 +26,52 @@ function PathfindingVisualizer () {
             }
             setup.push(currentRow)
         }
-        setNodes(setup)
+        setGrid(setup)
     })
+
+    
+
+    function animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder) {
+        for (let i = 0; i <= visitedNodesInOrder.length; i++) {
+          if (i === visitedNodesInOrder.length) {
+            setTimeout(() => {
+              this.animateShortestPath(nodesInShortestPathOrder);
+            }, 10 * i);
+            return;
+          }
+          setTimeout(() => {
+            const node = visitedNodesInOrder[i];
+            document.getElementById(`node-${node.row}-${node.col}`).className =
+              'node node-visited';
+          }, 10 * i);
+        }
+      }
+
+      function animateShortestPath(nodesInShortestPathOrder) {
+        for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
+          setTimeout(() => {
+            const node = nodesInShortestPathOrder[i];
+            document.getElementById(`node-${node.row}-${node.col}`).className =
+              'node node-shortest-path';
+          }, 50 * i);
+        }
+      }
+
+      function visualizeDijkstra() {
+        const {grid} = this.state;
+        const startNode = grid[START_NODE_ROW][START_NODE_COL];
+        const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
+        const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
+        const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
+        this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
+      }
+
+
+
 
     return (
         <div className="grid">
-            {nodes.map((row) => (
+            {grid.map((row) => (
                 <div>
                     {row.map((node, nodeIndex) => {
                         const {isStart, isFinish} = node

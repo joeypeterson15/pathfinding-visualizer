@@ -5,7 +5,9 @@ function Node ({isStart, isFinish, row, col, index}) {
     const extraClass = isFinish ? 'finish' : isStart ? 'start' : ''
 
     return (
-        <div className={`node ${extraClass}`}>
+        <div
+        id={`node-${row}-${col}`}
+        className={`node ${extraClass}`}>
 
         </div>
     )
