@@ -13,7 +13,12 @@
     background-color: green;
 }
 
+
 .node-visited {
+    background-color: aqua;
+}
+
+/* .node-visited {
     animation-name: visitedAnimation;
     animation-duration: 1.5s;
     animation-timing-function: ease-out;
@@ -44,13 +49,13 @@
       transform: scale(1);
       background-color: rgba(0, 190, 218, 0.75);
     }
-  }
+  } */
 
   .node-wall {
     background-color: rgb(12, 53, 71);
   }
 
-  .node-shortest-path {
+  /* .node-shortest-path {
     animation-name: shortestPath;
     animation-duration: 1.5s;
     animation-timing-function: ease-out;
@@ -76,4 +81,8 @@
       transform: scale(1);
       background-color: rgb(255, 254, 106);
     }
+  } */
+
+  .node-shortest-path {
+      background-color: blueviolet;
   }
