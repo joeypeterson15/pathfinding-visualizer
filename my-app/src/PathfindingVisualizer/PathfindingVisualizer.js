@@ -77,7 +77,7 @@ function PathfindingVisualizer () {
     return (
         <>
             <button id="visualize-button" onClick={() => visualizeDijkstra()}>
-                Visualize Dijkstra's Algorithm
+                Visualize
             </button>
             <div className="grid">
                 {grid.map((row) => (
