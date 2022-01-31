@@ -71,6 +71,19 @@ function PathfindingVisualizer () {
         animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
       }
 
+      function createNewGrid(col, row) {
+        const newGrid = [...grid]
+        const node = grid[row][col]
+        const newNode = {
+            ...node,
+            isWall: !grid[row][col].isWall
+        }
+        newGrid[row][col] = newNode
+        setGrid(newGrid)
+      }
+
+
+
 
 
 
@@ -91,6 +104,8 @@ function PathfindingVisualizer () {
                                     row = {node.row}
                                     col = {node.col}
                                     index = {nodeIndex}
+                                    isWall = {node.isWall}
+                                    createNewGrid = {createNewGrid}
                                 />
                             )
                             })}
