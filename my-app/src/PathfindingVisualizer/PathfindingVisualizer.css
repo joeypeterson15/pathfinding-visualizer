@@ -16,3 +16,13 @@
     font-size: 20px;
     font-weight: 500;
 }
+
+.wall-mode{
+  background-color: blue;
+}
+.start-mode{
+  background-color: blue;
+}
+.finish-mode{
+  background-color: blue;
+}

@@ -10,6 +10,13 @@ function PathfindingVisualizer () {
 
     const [grid, setGrid] = useState([])
     let isMouseDown = false
+    const [isStartMode, setIsStartMode] = useState(false)
+    const [isWallMode, setIsWallMode] = useState(false)
+    const [isFinishMode, setIsFinishMode] = useState(false)
+    const [startNode, setStartNode] = useState({row: 12, col: 5})
+    const [finishNode, setFinishNode] = useState({row: 10, col: 35})
+    // let startNode = {row: 12, col: 5}
+    // let finishNode = {row: 10, col: 35}
 
     useEffect(() => {
         const setup = []
@@ -20,8 +27,8 @@ function PathfindingVisualizer () {
                     col,
                     row,
                     //this is a boolean we can pass into node
-                    isStart: row === 10 && col === 5,
-                    isFinish: row === 10 && col === 45,
+                    isStart: row === startNode.row && col === startNode.col,
+                    isFinish: row === finishNode.row && col === finishNode.col,
                     isVisited: false,
                     distance: Infinity,
                     isWall: false,
@@ -65,27 +72,68 @@ function PathfindingVisualizer () {
       function visualizeDijkstra() {
         // const {grid} = this.state;
         // const startNode = grid[START_NODE_ROW][START_NODE_COL];
-        const startNode = grid[10][5];
-        const finishNode = grid[10][45];
-        const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
-        const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
+        const beginNode = grid[startNode.row][startNode.col];
+        const endNode = grid[finishNode.row][finishNode.col];
+        const visitedNodesInOrder = dijkstra(grid, beginNode, endNode);
+        const nodesInShortestPathOrder = getNodesInShortestPathOrder(endNode);
         animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
       }
+
+
 
       function createNewGrid(col, row) {
         isMouseDown = true
         const newGrid = [...grid]
         const node = newGrid[row][col]
-        const newNode = {
-            ...node,
-            isWall: !node.isWall
+
+        if (isWallMode) {
+            const newNode = {
+                ...node,
+                isWall: !node.isWall
+            }
+            newGrid[row][col] = newNode
+            setGrid(newGrid)
         }
-        newGrid[row][col] = newNode
-        setGrid(newGrid)
+
+        else if (isStartMode) {
+          setStartNode({row, col})
+          for (let row = 0; row < 20; row++) {
+            for (let col = 0; col < 50; col++) {
+              newGrid[row][col].isStart = (row === startNode?.row && col === startNode?.col)
+            }
+          }
+          setGrid(newGrid)
+        }
+
+        else if (isFinishMode) {
+          setFinishNode({row, col})
+          for (let row = 0; row < 20; row++) {
+            for (let col = 0; col < 50; col++) {
+              newGrid[row][col].isFinish = (row === finishNode.row && col === finishNode.col)
+            }
+          }
+          setGrid(newGrid)
+        }
       }
 
       function stopNewGrid() {
           isMouseDown = false
+      }
+
+      function handleStart() {
+        setIsStartMode(true)
+        setIsFinishMode(false)
+        setIsWallMode(false)
+      }
+      function handleFinish() {
+        setIsStartMode(false)
+        setIsFinishMode(true)
+        setIsWallMode(false)
+      }
+      function handleWalls() {
+        setIsStartMode(false)
+        setIsFinishMode(false)
+        setIsWallMode(true)
       }
 
 
@@ -97,6 +145,15 @@ function PathfindingVisualizer () {
         <>
             <button id="visualize-button" onClick={() => visualizeDijkstra()}>
                 Visualize
+            </button>
+            <button className={isWallMode ? 'wall-mode' : ''} onClick={() => handleWalls()}>
+              Edit Walls
+            </button>
+            <button className={isStartMode ? 'start-mode' : ''} onClick={() => handleStart()}>
+              Edit Start Node
+            </button>
+            <button className={isFinishMode ? 'finish-mode' : ''} onClick={() => handleFinish()}>
+              Edit Finish Node
             </button>
             <div className="grid">
                 {grid.map((row) => (
