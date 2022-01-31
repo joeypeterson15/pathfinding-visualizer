@@ -9,6 +9,7 @@ import './PathfindingVisualizer.css'
 function PathfindingVisualizer () {
 
     const [grid, setGrid] = useState([])
+    let isMouseDown = false
 
     useEffect(() => {
         const setup = []
@@ -72,14 +73,19 @@ function PathfindingVisualizer () {
       }
 
       function createNewGrid(col, row) {
+        isMouseDown = true
         const newGrid = [...grid]
-        const node = grid[row][col]
+        const node = newGrid[row][col]
         const newNode = {
             ...node,
-            isWall: !grid[row][col].isWall
+            isWall: !node.isWall
         }
         newGrid[row][col] = newNode
         setGrid(newGrid)
+      }
+
+      function stopNewGrid() {
+          isMouseDown = false
       }
 
 
@@ -106,6 +112,7 @@ function PathfindingVisualizer () {
                                     index = {nodeIndex}
                                     isWall = {node.isWall}
                                     createNewGrid = {createNewGrid}
+                                    stopNewGrid = {stopNewGrid}
                                 />
                             )
                             })}
