@@ -15,6 +15,7 @@ function PathfindingVisualizer () {
     const [isFinishMode, setIsFinishMode] = useState(false)
     const [startNode, setStartNode] = useState({row: 12, col: 5})
     const [finishNode, setFinishNode] = useState({row: 10, col: 35})
+    const [isReset, setIsReset] = useState(false)
     // let startNode = {row: 12, col: 5}
     // let finishNode = {row: 10, col: 35}
 
@@ -39,7 +40,8 @@ function PathfindingVisualizer () {
             setup.push(currentRow)
         }
         setGrid(setup)
-    }, [])
+        setIsReset(false)
+    }, [isReset])
 
 
 
@@ -137,6 +139,33 @@ function PathfindingVisualizer () {
       }
 
 
+      function resetGrid() {
+        setIsStartMode(false)
+        setIsWallMode(false)
+        setIsFinishMode(false)
+        // const newGrid = []
+        // for (let row = 0; row < 20; row++) {
+        //   let currentRow = []
+        //   for (let col = 0; col < 50; col++) {
+        //     const node = {
+        //       row,
+        //       col,
+        //       isWall : false,
+        //       isStart : col === startNode.col && row === startNode.row,
+        //       isFinish : col === finishNode.col && row === finishNode.row,
+        //       isVisited: false,
+        //       distance: Infinity,
+        //       previousNode: null
+        //     }
+        //     currentRow.push(node)
+        //   }
+        //   newGrid.push(currentRow)
+        // }
+        // setGrid(newGrid)
+        setIsReset(true)
+      }
+
+
 
 
 
@@ -154,6 +183,9 @@ function PathfindingVisualizer () {
             </button>
             <button className={isFinishMode ? 'finish-mode' : ''} onClick={() => handleFinish()}>
               Edit Finish Node
+            </button>
+            <button onClick={resetGrid}>
+              Reset
             </button>
             <div className="grid">
                 {grid.map((row) => (
