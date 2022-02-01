@@ -15,9 +15,6 @@ function PathfindingVisualizer () {
     const [isFinishMode, setIsFinishMode] = useState(false)
     const [startNode, setStartNode] = useState({row: 12, col: 5})
     const [finishNode, setFinishNode] = useState({row: 10, col: 35})
-    const [isReset, setIsReset] = useState(false)
-    // let startNode = {row: 12, col: 5}
-    // let finishNode = {row: 10, col: 35}
 
     useEffect(() => {
         const setup = []
@@ -40,8 +37,8 @@ function PathfindingVisualizer () {
             setup.push(currentRow)
         }
         setGrid(setup)
-        setIsReset(false)
-    }, [isReset])
+
+    }, [])
 
 
 
@@ -72,8 +69,6 @@ function PathfindingVisualizer () {
       }
 
       function visualizeDijkstra() {
-        // const {grid} = this.state;
-        // const startNode = grid[START_NODE_ROW][START_NODE_COL];
         const beginNode = grid[startNode.row][startNode.col];
         const endNode = grid[finishNode.row][finishNode.col];
         const visitedNodesInOrder = dijkstra(grid, beginNode, endNode);
@@ -111,7 +106,7 @@ function PathfindingVisualizer () {
           setFinishNode({row, col})
           for (let row = 0; row < 20; row++) {
             for (let col = 0; col < 50; col++) {
-              newGrid[row][col].isFinish = (row === finishNode.row && col === finishNode.col)
+              newGrid[row][col].isFinish = (row === finishNode?.row && col === finishNode?.col)
             }
           }
           setGrid(newGrid)
@@ -123,14 +118,14 @@ function PathfindingVisualizer () {
       }
 
       function handleStart() {
-        setIsStartMode(true)
         setIsFinishMode(false)
         setIsWallMode(false)
+        setIsStartMode(true)
       }
       function handleFinish() {
         setIsStartMode(false)
-        setIsFinishMode(true)
         setIsWallMode(false)
+        setIsFinishMode(true)
       }
       function handleWalls() {
         setIsStartMode(false)
@@ -143,26 +138,34 @@ function PathfindingVisualizer () {
         setIsStartMode(false)
         setIsWallMode(false)
         setIsFinishMode(false)
-        // const newGrid = []
-        // for (let row = 0; row < 20; row++) {
-        //   let currentRow = []
-        //   for (let col = 0; col < 50; col++) {
-        //     const node = {
-        //       row,
-        //       col,
-        //       isWall : false,
-        //       isStart : col === startNode.col && row === startNode.row,
-        //       isFinish : col === finishNode.col && row === finishNode.row,
-        //       isVisited: false,
-        //       distance: Infinity,
-        //       previousNode: null
-        //     }
-        //     currentRow.push(node)
-        //   }
-        //   newGrid.push(currentRow)
-        // }
-        // setGrid(newGrid)
-        setIsReset(true)
+        const newGrid = []
+        for (let row = 0; row < 20; row++) {
+          let currentRow = []
+          for (let col = 0; col < 50; col++) {
+            const node = {
+              row,
+              col,
+              isWall : false,
+              isStart : col === startNode?.col && row === startNode?.row,
+              isFinish : col === finishNode?.col && row === finishNode?.row,
+              isVisited: false,
+              distance: Infinity,
+              previousNode: null
+            }
+            currentRow.push(node)
+          }
+          newGrid.push(currentRow)
+        }
+        setGrid(newGrid)
+
+        for (let row = 0; row < 20; row++) {
+          for (let col = 0; col < 50; col++) {
+            document.getElementById(`node-${row}-${col}`).className ='node'
+          }
+        }
+
+
+
       }
 
 
@@ -194,8 +197,8 @@ function PathfindingVisualizer () {
                             const {isStart, isFinish} = node
                             return (
                                 <Node
-                                    isStart = {isStart}
-                                    isFinish = {isFinish}
+                                    isStart = {node.isStart}
+                                    isFinish = {node.isFinish}
                                     row = {node.row}
                                     col = {node.col}
                                     index = {nodeIndex}
