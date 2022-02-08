@@ -175,21 +175,23 @@ function PathfindingVisualizer () {
 
     return (
         <>
-            <button id="visualize-button" onClick={() => visualizeDijkstra()}>
-                Visualize
-            </button>
-            <button className={isWallMode ? 'wall-mode' : ''} onClick={() => handleWalls()}>
-              Edit Walls
-            </button>
-            <button className={isStartMode ? 'start-mode' : ''} onClick={() => handleStart()}>
-              Edit Start Node
-            </button>
-            <button className={isFinishMode ? 'finish-mode' : ''} onClick={() => handleFinish()}>
-              Edit Finish Node
-            </button>
-            <button onClick={resetGrid}>
-              Reset
-            </button>
+            <div className="flex-buttons">
+                <button className={isWallMode ? 'wall-mode' : 'button'} onClick={() => handleWalls()}>
+                  Edit Walls
+                </button>
+                <button className={isStartMode ? 'start-mode' : 'button'} onClick={() => handleStart()}>
+                  Edit Start Node
+                </button>
+                <button className={isFinishMode ? 'finish-mode' : 'button'} onClick={() => handleFinish()}>
+                  Edit Finish Node
+                </button>
+                <button className="button" onClick={resetGrid}>
+                  Reset
+                </button>
+            </div>
+                <button id="visualize-button" onClick={() => visualizeDijkstra()}>
+                    Visualize
+                </button>
             <div className="grid">
                 {grid.map((row) => (
                     <div>
