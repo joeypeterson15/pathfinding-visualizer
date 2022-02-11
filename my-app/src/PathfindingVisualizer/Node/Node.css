@@ -17,6 +17,9 @@
 .node-visited {
     background-color: aqua;
 }
+.weight-node {
+    background-color: orange;
+}
 
 /* .node-visited {
     animation-name: visitedAnimation;

@@ -15,6 +15,7 @@ function PathfindingVisualizer () {
     const [isFinishMode, setIsFinishMode] = useState(false)
     const [startNode, setStartNode] = useState({row: 12, col: 5})
     const [finishNode, setFinishNode] = useState({row: 10, col: 35})
+    const [isWeightMode, setIsWeightMode] = useState(false)
 
     useEffect(() => {
         const setup = []
@@ -31,6 +32,7 @@ function PathfindingVisualizer () {
                     distance: Infinity,
                     isWall: false,
                     previousNode: null,
+                    isWeight: false,
                 }
                 currentRow.push(currentNode)
             }
@@ -91,6 +93,14 @@ function PathfindingVisualizer () {
             newGrid[row][col] = newNode
             setGrid(newGrid)
         }
+        else if (isWeightMode) {
+            const newNode = {
+                ...node,
+                isWeight: !node.isWeight
+            }
+            newGrid[row][col] = newNode
+            setGrid(newGrid)
+        }
 
         else if (isStartMode) {
           setStartNode({row, col})
@@ -120,17 +130,26 @@ function PathfindingVisualizer () {
       function handleStart() {
         setIsFinishMode(false)
         setIsWallMode(false)
+        setIsWeightMode(false)
         setIsStartMode(true)
       }
       function handleFinish() {
         setIsStartMode(false)
         setIsWallMode(false)
+        setIsWeightMode(false)
         setIsFinishMode(true)
       }
       function handleWalls() {
         setIsStartMode(false)
         setIsFinishMode(false)
+        setIsWeightMode(false)
         setIsWallMode(true)
+      }
+      function handleWeight() {
+        setIsStartMode(false)
+        setIsFinishMode(false)
+        setIsWallMode(false)
+        setIsWeightMode(true)
       }
 
 
@@ -150,7 +169,8 @@ function PathfindingVisualizer () {
               isFinish : col === finishNode?.col && row === finishNode?.row,
               isVisited: false,
               distance: Infinity,
-              previousNode: null
+              previousNode: null,
+              isWeight: false,
             }
             currentRow.push(node)
           }
@@ -185,6 +205,9 @@ function PathfindingVisualizer () {
                 <button className={isFinishMode ? 'finish-mode' : 'button'} onClick={() => handleFinish()}>
                   Edit Finish Node
                 </button>
+                <button className={isWeightMode ? 'weight-mode' : 'button'} onClick={() => handleWeight()}>
+                  Add Weight
+                </button>
                 <button className="button" onClick={resetGrid}>
                   Reset
                 </button>
@@ -207,6 +230,7 @@ function PathfindingVisualizer () {
                                     isWall = {node.isWall}
                                     createNewGrid = {createNewGrid}
                                     stopNewGrid = {stopNewGrid}
+                                    isWeight = {node.isWeight}
                                 />
                             )
                             })}
