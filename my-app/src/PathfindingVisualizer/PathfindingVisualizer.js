@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import Node from './Node/Node.js'
+import GridNode from './Node/Node.js'
 import {dijkstra, getNodesInShortestPathOrder} from '../algorithms/dijkstra';
 
 
@@ -7,15 +7,15 @@ import './PathfindingVisualizer.css'
 
 
 function PathfindingVisualizer () {
-
-    const [grid, setGrid] = useState([])
     let isMouseDown = false
+    const [grid, setGrid] = useState([])
     const [isStartMode, setIsStartMode] = useState(false)
     const [isWallMode, setIsWallMode] = useState(false)
     const [isFinishMode, setIsFinishMode] = useState(false)
     const [startNode, setStartNode] = useState({row: 12, col: 5})
     const [finishNode, setFinishNode] = useState({row: 10, col: 35})
     const [isWeightMode, setIsWeightMode] = useState(false)
+    const [visualizationMode, setVisualizationMode] = useState('grid')
 
     useEffect(() => {
         const setup = []
@@ -25,7 +25,6 @@ function PathfindingVisualizer () {
                 const currentNode = {
                     col,
                     row,
-                    //this is a boolean we can pass into node
                     isStart: row === startNode.row && col === startNode.col,
                     isFinish: row === finishNode.row && col === finishNode.col,
                     isVisited: false,
@@ -152,6 +151,15 @@ function PathfindingVisualizer () {
         setIsWeightMode(true)
       }
 
+      function changeVisualizationMode () {
+        if (visualizationMode == 'grid') {
+          setVisualizationMode('tree')
+        }
+        else {
+          setVisualizationMode('grid')
+        }
+      }
+
 
       function resetGrid() {
         setIsStartMode(false)
@@ -193,8 +201,12 @@ function PathfindingVisualizer () {
 
 
 
-    return (
+    if (visualizationMode == "grid") return (
+
         <>
+            <button onClick={() => changeVisualizationMode()}>{visualizationMode == 'grid' ? "Tree" : "Grid"}</button>
+
+
             <div className="flex-buttons">
                 <button className={isWallMode ? 'wall-mode' : 'button'} onClick={() => handleWalls()}>
                   Edit Walls
@@ -221,7 +233,7 @@ function PathfindingVisualizer () {
                         {row.map((node, nodeIndex) => {
                             const {isStart, isFinish} = node
                             return (
-                                <Node
+                                <GridNode
                                     isStart = {node.isStart}
                                     isFinish = {node.isFinish}
                                     row = {node.row}
@@ -238,8 +250,24 @@ function PathfindingVisualizer () {
                 ))}
             </div>
 
+
         </>
+
+
+
     )
+    else return (
+      <>
+      <div>
+        <button onClick={() => changeVisualizationMode()}>{visualizationMode == 'grid' ? "Tree" : "Grid"}</button>
+
+
+      </div>
+        <canvas id="canvas" width="800" height="500"></canvas>
+      </>
+    )
+
+
 }
 
 export default PathfindingVisualizer

@@ -62,3 +62,21 @@
   padding: 1rem;
 
 }
+
+
+
+
+
+
+/* tree */
+
+#canvas {
+  margin-top: 1rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  width: 95vw;
+  height: 85vh;
+  background-color: rgb(255, 255, 255);
+  /* display: none; */
+  border: 3px black solid
+}
