@@ -12,10 +12,13 @@ import PathfindingVisualizer from './PathfindingVisualizer/PathfindingVisualizer
 
 function App() {
   return (
+     
 
-        <div className="main">
-          <PathfindingVisualizer />
-        </div>
+          <div className="main">
+            <PathfindingVisualizer />
+          </div>
+
+
 
   );
 }
