@@ -18,6 +18,10 @@
     font-weight: 500;
 }
 
+.left {
+  left: 5vw;
+}
+
 .wall-mode{
   background-color: blue;
   border: 0.1px solid rgba(223, 223, 223, 0.8);

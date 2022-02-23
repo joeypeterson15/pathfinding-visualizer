@@ -81,8 +81,8 @@ function PathfindingVisualizer () {
       function visualizeBidirectional () {
         const beginNode = grid[startNode.row][startNode.col];
         const endNode = grid[finishNode.row][finishNode.col];
-        const visitedNodesInOrder = bidirectional(beginNode, endNode, grid)
-        const shortestPathNodes = getNodesInShortestPathOrder(endNode);
+        const {visitedNodesInOrder, lastEndPathItem, lastStartPathItem} = bidirectional(beginNode, endNode, grid)
+        const shortestPathNodes = getNodesInShortestPathOrder(lastEndPathItem, lastStartPathItem);
         animateDijkstra(visitedNodesInOrder, shortestPathNodes)
       }
 
@@ -236,7 +236,7 @@ function PathfindingVisualizer () {
                 <button id="visualize-button" onClick={() => visualizeDijkstra()}>
                     Dijkstra
                 </button>
-                <button id="visualize-button" onClick={() => visualizeBidirectional()}>
+                <button id="visualize-button" className='left' onClick={() => visualizeBidirectional()}>
                     Bidirectional
                 </button>
             <div className="grid">
