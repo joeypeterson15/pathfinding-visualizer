@@ -3,38 +3,52 @@ const DIRECTIONS = [[1, 0], [-1, 0], [0, -1], [0, 1]]
 export function bidirectional (startNode, endNode, grid) {
     startNode.distance = 0
     endNode.distance = 0
-    const visitedNodesInOrder = {'startPath' : [], 'endPath': []}
-    let unvisitedNodes1 = getAllNodes(grid, startNode.row, startNode.col)
-    let unvisitedNodes2 = getAllNodes(grid, endNode.row, endNode.col)
-    // changeInitalDistance(unvisitedNodes1, true)
-    // changeInitalDistance(unvisitedNodes2, false)
+    startNode.isStartChildNode = true
+    endNode.isEndChildNode = true
+    // let grid1 = grid
+    // let grid2 = grid
+    const visitedNodesInOrder = {'startPath' : [], 'endPath' : []}
+    let unvisitedNodes = getAllNodes(grid)
+    // let unvisitedNodes2 = getAllNodes(grid2, false, endNode.row, endNode.col)
+
     const visited1 = new Set()
     const visited2 = new Set()
-    visited1.add((startNode.row, startNode.col))
-    visited2.add((endNode.row, endNode.col))
+    // visited1.add((startNode.row, startNode.col))
+    // visited2.add((endNode.row, endNode.col))
 
-    while (!!unvisitedNodes1.length || !!unvisitedNodes2.length) {
-        sortNodesByDistance(unvisitedNodes1)
-        sortNodesByDistance(unvisitedNodes2)
-        let currStartNode = unvisitedNodes1.shift()
-        let currEndNode = unvisitedNodes2.shift()
-        let d1 = currStartNode.distance
-        let d2 = currEndNode.distance
-        visited1.add((currStartNode.row, currStartNode.col))
-        currStartNode.isVisited = true
-        currEndNode.isVisited = true
-        visited2.add((currEndNode.row, currEndNode.col))
-        visitedNodesInOrder['startPath'].push(currStartNode)
-        visitedNodesInOrder['endPath'].push(currEndNode)
-        if (currEndNode.row === currStartNode.row && currEndNode.col === currStartNode.col) {
+    while (!!unvisitedNodes.length) {
+
+        sortNodesByDistance(unvisitedNodes)
+        // sortNodesByDistance(unvisitedNodes2)
+
+        let currNode = unvisitedNodes.shift()
+        // let currEndNode = unvisitedNodes2.shift()
+
+
+        // let d1 = currStartNode.distance
+        // let d2 = currEndNode.distance
+        if (currNode.isStartChildNode) {
+
+            visited1.add((currNode.row, currNode.col))
+            visitedNodesInOrder['startPath'].push(currNode)
+        } else {
+            visited2.add((currNode.row, currNode.col))
+             visitedNodesInOrder['endPath'].push(currNode)
+        }
+
+        // currNode.isVisited = true
+
+        // visitedNodesInOrder.push(currNode)
+
+        if ((currNode.isStartChildNode && visited2.has((currNode.row, currNode.col)) )|| (currNode.isEndChildNode && visited1.has((currNode.row, currNode.col)))) {
             return {
-            'visitedNodesInOrder' : [...visitedNodesInOrder['startPath'], ...visitedNodesInOrder['endPath']],
-            'lastStartPathItem' : visitedNodesInOrder['startPath'][visitedNodesInOrder['startPath'].length - 1],
-            'lastEndPathItem' : visitedNodesInOrder['endPath'][visitedNodesInOrder['endPath'].length - 1],
+                'visitedNodesInOrder' : visitedNodesInOrder,
+                'lastEndPathItem' : visitedNodesInOrder['endPath'][visitedNodesInOrder['endPath'].length - 1],
+                'lastStartPathItem' : visitedNodesInOrder['startPath'][visitedNodesInOrder['startPath'].length - 1],
             }
         }
-        updateNeighbors(currStartNode, grid, visited1)
-        updateNeighbors(currEndNode, grid, visited2)
+        updateNeighbors(currNode, grid, visited1, visited2)
+        // updateNeighbors(currEndNode, grid2, visited2)
 
 
 
@@ -47,15 +61,23 @@ function sortNodesByDistance(unvisitedNodes) {
     unvisitedNodes.sort((nodeA, nodeB) => nodeA.distance - nodeB.distance);
   }
 
-function updateNeighbors (node, grid, visited) {
-    let neighbors = getNeighbors(node, grid, visited)
-    for (const neighbor in neighbors) {
+function updateNeighbors (node, grid, visited1, visited2) {
+
+    let neighbors = getNeighbors(node, grid, visited1, visited2)
+
+    for (let neighbor of neighbors) {
         neighbor.previousNode = node
         neighbor.distance = node.distance + 1
+        if (node.isStartChildNode) {
+            neighbor.isStartChildNode = true
+        }
+        if (node.isEndChildNode) {
+            neighbor.isEndChildNode = true
+        }
     }
 }
 
-function getNeighbors(node, grid, visited) {
+function getNeighbors(node, grid, visited1, visited2) {
     let neighbors = []
     const {row, col} = node
     for (let i = 0; i < DIRECTIONS.length - 1; i++){
@@ -63,8 +85,11 @@ function getNeighbors(node, grid, visited) {
         let dc = DIRECTIONS[i][1]
         let r = row + dr
         let c = col + dc
-        if (r >= 0 && r <= grid.length - 1 && c >= 0 && c <= grid[0].length - 1 && !visited.has((r,c))) {
-            neighbors.push(grid[row][col])
+        if (r >= 0 && r <= grid.length - 1 && c >= 0 && c <= grid[0].length - 1) {
+            if (node.isStartChildNode && !visited1.has((grid[r][c].row, grid[r][c].col)))
+            neighbors.push(grid[r][c])
+        }   if (node.isEndChildNode && !visited2.has((grid[r][c].row, grid[r][c].col))) {
+            neighbors.push(grid[r][c])
         }
 
     }
@@ -72,14 +97,26 @@ function getNeighbors(node, grid, visited) {
 }
 
 
-function getAllNodes(grid, r, c) {
+function getAllNodes(grid, isStart, r, c) {
     let list = []
     for (const row of grid) {
-        for (const node of row) {
+        for (let node of row) {
 
-            if (node.row = r && node.col == c) {
-                node.distance = 0
-            }
+            // if (isStart) {
+            //     if (node.isStart) {
+            //         node.distance = 0
+            //     }
+            // } else {
+            //     if (node.isFinish) {
+            //         node.distance = 0
+            //     }
+            // }
+
+            // if (node.row === r && node.col === c) {
+            //     let temp = node
+            //     temp.distance = 0
+            //     node = temp
+            // }
             list.push(node)
         }
     }
@@ -87,7 +124,7 @@ function getAllNodes(grid, r, c) {
 }
 
 
-export function getNodesInShortestPathOrder(item1, item2) {
+export function getNodesInShortestPath(item1, item2) {
     const nodesInShortestPathOrder = [];
     let curr1 = item1;
     let curr2 = item2;

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import GridNode from './Node/Node.js'
 import {dijkstra, getNodesInShortestPathOrder} from '../algorithms/dijkstra';
-import { bidirectional } from '../algorithms/bidirectional.js';
+import { bidirectional, getNodesInShortestPath } from '../algorithms/bidirectional.js';
 
 
 import './PathfindingVisualizer.css'
@@ -33,6 +33,8 @@ function PathfindingVisualizer () {
                     isWall: false,
                     previousNode: null,
                     isWeight: false,
+                    isStartChildNode: false,
+                    isFinishChildNode: false,
                 }
                 currentRow.push(currentNode)
             }
@@ -82,7 +84,7 @@ function PathfindingVisualizer () {
         const beginNode = grid[startNode.row][startNode.col];
         const endNode = grid[finishNode.row][finishNode.col];
         const {visitedNodesInOrder, lastEndPathItem, lastStartPathItem} = bidirectional(beginNode, endNode, grid)
-        const shortestPathNodes = getNodesInShortestPathOrder(lastEndPathItem, lastStartPathItem);
+        const shortestPathNodes = getNodesInShortestPath(lastEndPathItem, lastStartPathItem);
         animateDijkstra(visitedNodesInOrder, shortestPathNodes)
       }
 
