@@ -4,8 +4,10 @@ export function bidirectional (startNode, endNode, grid) {
     startNode.distance = 0
     endNode.distance = 0
     const visitedNodesInOrder = {'startPath' : [], 'endPath': []}
-    let unvisitedNodes1 = getAllNodes(grid)
-    let unvisitedNodes2 = getAllNodes(grid)
+    let unvisitedNodes1 = getAllNodes(grid, startNode.row, startNode.col)
+    let unvisitedNodes2 = getAllNodes(grid, endNode.row, endNode.col)
+    // changeInitalDistance(unvisitedNodes1, true)
+    // changeInitalDistance(unvisitedNodes2, false)
     const visited1 = new Set()
     const visited2 = new Set()
     visited1.add((startNode.row, startNode.col))
@@ -24,7 +26,7 @@ export function bidirectional (startNode, endNode, grid) {
         visited2.add((currEndNode.row, currEndNode.col))
         visitedNodesInOrder['startPath'].push(currStartNode)
         visitedNodesInOrder['endPath'].push(currEndNode)
-        if (currEndNode === currStartNode) {
+        if (currEndNode.row === currStartNode.row && currEndNode.col === currStartNode.col) {
             return {
             'visitedNodesInOrder' : [...visitedNodesInOrder['startPath'], ...visitedNodesInOrder['endPath']],
             'lastStartPathItem' : visitedNodesInOrder['startPath'][visitedNodesInOrder['startPath'].length - 1],
@@ -38,6 +40,8 @@ export function bidirectional (startNode, endNode, grid) {
 
     }
 }
+
+
 
 function sortNodesByDistance(unvisitedNodes) {
     unvisitedNodes.sort((nodeA, nodeB) => nodeA.distance - nodeB.distance);
@@ -68,10 +72,14 @@ function getNeighbors(node, grid, visited) {
 }
 
 
-function getAllNodes(grid) {
+function getAllNodes(grid, r, c) {
     let list = []
     for (const row of grid) {
         for (const node of row) {
+
+            if (node.row = r && node.col == c) {
+                node.distance = 0
+            }
             list.push(node)
         }
     }
