@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import GridNode from './Node/Node.js'
 import {dijkstra, getNodesInShortestPathOrder} from '../algorithms/dijkstra';
+import { bidirectional } from '../algorithms/bidirectional.js';
 
 
 import './PathfindingVisualizer.css'
@@ -75,6 +76,14 @@ function PathfindingVisualizer () {
         const visitedNodesInOrder = dijkstra(grid, beginNode, endNode);
         const nodesInShortestPathOrder = getNodesInShortestPathOrder(endNode);
         animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
+      }
+
+      function visualizeBidirectional () {
+        const beginNode = grid[startNode.row][startNode.col];
+        const endNode = grid[finishNode.row][finishNode.col];
+        const visitedNodesInOrder = bidirectional(beginNode, endNode, grid)
+        const shortestPathNodes = getNodesInShortestPathOrder(endNode);
+        animateDijkstra(visitedNodesInOrder, shortestPathNodes)
       }
 
 
@@ -225,7 +234,10 @@ function PathfindingVisualizer () {
                 </button>
             </div>
                 <button id="visualize-button" onClick={() => visualizeDijkstra()}>
-                    Visualize
+                    Dijkstra
+                </button>
+                <button id="visualize-button" onClick={() => visualizeBidirectional()}>
+                    Bidirectional
                 </button>
             <div className="grid">
                 {grid.map((row) => (

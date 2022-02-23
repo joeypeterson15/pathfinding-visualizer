@@ -1,6 +1,6 @@
 const DIRECTIONS = [[1, 0], [-1, 0], [0, -1], [0, 1]]
 
-export function bidirection (startNode, endNode, grid) {
+export function bidirectional (startNode, endNode, grid) {
     startNode.distance = 0
     endNode.distance = 0
     const unvisitedNodes1 = getAllNodes(grid)
