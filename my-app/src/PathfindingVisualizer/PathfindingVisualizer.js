@@ -83,9 +83,10 @@ function PathfindingVisualizer () {
       function visualizeBidirectional () {
         const beginNode = grid[startNode.row][startNode.col];
         const endNode = grid[finishNode.row][finishNode.col];
-        const {visitedNodesInOrder, lastEndPathItem, lastStartPathItem} = bidirectional(beginNode, endNode, grid)
-        const shortestPathNodes = getNodesInShortestPath(lastEndPathItem, lastStartPathItem);
-        animateDijkstra(visitedNodesInOrder, shortestPathNodes)
+        // const {visitedNodesInOrder, lastEndPathItem, lastStartPathItem} = bidirectional(beginNode, endNode, grid)
+        const res = bidirectional(beginNode, endNode, grid)
+        const shortestPathNodes = getNodesInShortestPath(res[2], res[1]);
+        animateDijkstra(res[0], shortestPathNodes)
       }
 
 
