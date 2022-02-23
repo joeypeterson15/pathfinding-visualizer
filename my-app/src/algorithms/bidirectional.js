@@ -16,20 +16,21 @@ export function bidirectional (startNode, endNode, grid) {
         sortNodesByDistance(unvisitedNodes2)
         let currStartNode = unvisitedNodes1.shift()
         let currEndNode = unvisitedNodes2.shift()
-
-        if (currEndNode === currStartNode) {
-            return {
-            'visitedNodesInOrder' : [...visitedNodesInOrder['startPath'], ...visitedNodesInOrder['endPath']],
-            'lastStartPathItem' : visitedNodesInOrder['startPath'][visitedNodesInOrder['startPath'].length - 1],
-            'lastEndPathItem' : visitedNodesInOrder['endPath'][visitedNodesInOrder['endPath'].length - 1],
-        }
-        }
+        let d1 = currStartNode.distance
+        let d2 = currEndNode.distance
         visited1.add((currStartNode.row, currStartNode.col))
         currStartNode.isVisited = true
         currEndNode.isVisited = true
         visited2.add((currEndNode.row, currEndNode.col))
         visitedNodesInOrder['startPath'].push(currStartNode)
         visitedNodesInOrder['endPath'].push(currEndNode)
+        if (currEndNode === currStartNode) {
+            return {
+            'visitedNodesInOrder' : [...visitedNodesInOrder['startPath'], ...visitedNodesInOrder['endPath']],
+            'lastStartPathItem' : visitedNodesInOrder['startPath'][visitedNodesInOrder['startPath'].length - 1],
+            'lastEndPathItem' : visitedNodesInOrder['endPath'][visitedNodesInOrder['endPath'].length - 1],
+            }
+        }
         updateNeighbors(currStartNode, grid, visited1)
         updateNeighbors(currEndNode, grid, visited2)
 
