@@ -27,10 +27,10 @@ export function bidirectional (startNode, endNode, grid) {
 
         if (currNode.isStartChildNode) {
 
-            visited1.add([currNode.row, currNode.col])
+            visited1.add({'row' : currNode.row, 'col' : currNode.col})
             visitedNodesInOrder['startPath'].push(currNode)
         } else {
-            visited2.add([currNode.row, currNode.col])
+            visited2.add({'row' : currNode.row, 'col' : currNode.col})
              visitedNodesInOrder['endPath'].push(currNode)
         }
 
@@ -38,7 +38,7 @@ export function bidirectional (startNode, endNode, grid) {
 
         // visitedNodesInOrder.push(currNode)
 
-        if ((currNode.isStartChildNode && visited2.has([currNode.row, currNode.col])) || (currNode.isEndChildNode && visited1.has([currNode.row, currNode.col]))) {
+        if ((currNode.isStartChildNode && visited2.has({'row': currNode.row, 'col' : currNode.col})) || (currNode.isEndChildNode && visited1.has({'row': currNode.row, 'col' : currNode.col}))) {
 
             let result = [[...visitedNodesInOrder['startPath'], ...visitedNodesInOrder['endPath']],
             visitedNodesInOrder['endPath'][visitedNodesInOrder['endPath'].length - 1],
@@ -109,10 +109,10 @@ function getNeighbors(node, grid, visited1, visited2) {
         let r = row + dr
         let c = col + dc
         if (r >= 0 && r <= grid.length - 1 && c >= 0 && c <= grid[0].length - 1) {
-            if (node.isStartChildNode && !visited1.has([grid[r][c].row, grid[r][c].col])) {
+            if (node.isStartChildNode && !visited1.has({'row' : grid[r][c].row, 'col' : grid[r][c].col})) {
                 neighbors.push(grid[r][c])
             }
-           if (node.isEndChildNode && !visited2.has([grid[r][c].row, grid[r][c].col])) {
+           if (node.isEndChildNode && !visited2.has({'row' : grid[r][c].row, 'col' : grid[r][c].col})) {
             neighbors.push(grid[r][c])
             }
 

@@ -191,6 +191,8 @@ function PathfindingVisualizer () {
               distance: Infinity,
               previousNode: null,
               isWeight: false,
+              isStartChildNode: false,
+              isFinishChildNode: false,
             }
             currentRow.push(node)
           }
