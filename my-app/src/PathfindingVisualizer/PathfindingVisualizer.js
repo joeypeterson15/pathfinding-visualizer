@@ -239,7 +239,7 @@ function PathfindingVisualizer () {
                 <button id="visualize-button" onClick={() => visualizeDijkstra()}>
                     Dijkstra
                 </button>
-                <button id="visualize-button" className='left' onClick={() => visualizeBidirectional()}>
+                <button id="visualize-buttons" onClick={() => visualizeBidirectional()}>
                     Bidirectional
                 </button>
             <div className="grid">
