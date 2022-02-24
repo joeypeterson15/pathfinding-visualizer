@@ -20,6 +20,7 @@ export function bidirectional (startNode, endNode, grid) {
 
 
         let currNode = unvisitedNodes.shift()
+        if (currNode.isWall) continue;
 
 
         console.log('currNode',currNode)
