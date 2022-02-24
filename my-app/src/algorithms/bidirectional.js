@@ -75,7 +75,7 @@ function updateNeighbors (node, grid, visited1, visited2) {
     let neighbors = getNeighbors(node, grid, visited1, visited2)
 
     for (let neighbor of neighbors) {
-        if (neighbor.distance == Infinity) {
+        if (neighbor.distance === Infinity) {
             neighbor.previousNode = node
             neighbor.distance = node.distance + 1
             if (node.isStartChildNode) {
