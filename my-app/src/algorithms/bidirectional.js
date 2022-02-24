@@ -50,9 +50,11 @@ export function bidirectional (startNode, endNode, grid) {
         }
         let update = updateNeighbors(currNode, grid, visited1, visited2)
         if (update) {
-            let result = [[...visitedNodesInOrder['startPath'], ...visitedNodesInOrder['endPath']],
-            visitedNodesInOrder['endPath'][visitedNodesInOrder['endPath'].length - 1],
-            visitedNodesInOrder['startPath'][visitedNodesInOrder['startPath'].length - 1]]
+            let result = [
+                [...visitedNodesInOrder['startPath'], ...visitedNodesInOrder['endPath']],
+                visitedNodesInOrder['endPath'][visitedNodesInOrder['endPath'].length - 1],
+                visitedNodesInOrder['startPath'][visitedNodesInOrder['startPath'].length - 1]
+            ]
             console.log('result', result)
 
             return result
@@ -125,22 +127,6 @@ function getAllNodes(grid, isStart, r, c) {
     let list = []
     for (const row of grid) {
         for (let node of row) {
-
-            // if (isStart) {
-            //     if (node.isStart) {
-            //         node.distance = 0
-            //     }
-            // } else {
-            //     if (node.isFinish) {
-            //         node.distance = 0
-            //     }
-            // }
-
-            // if (node.row === r && node.col === c) {
-            //     let temp = node
-            //     temp.distance = 0
-            //     node = temp
-            // }
             list.push(node)
         }
     }
@@ -160,5 +146,6 @@ export function getNodesInShortestPath(item1, item2) {
         nodesInShortestPathOrder.push(curr2)
         curr2 = curr2.previousNode
     }
+    console.log('nodesinshortestpathorder', nodesInShortestPathOrder)
     return nodesInShortestPathOrder;
   }
