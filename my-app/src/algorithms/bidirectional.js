@@ -38,30 +38,39 @@ export function bidirectional (startNode, endNode, grid) {
 
         // visitedNodesInOrder.push(currNode)
 
-        if ((currNode.isStartChildNode && visited2.has({'row': currNode.row, 'col' : currNode.col})) || (currNode.isEndChildNode && visited1.has({'row': currNode.row, 'col' : currNode.col}))) {
+        // if ((currNode.isStartChildNode && visited2.has({'row': currNode.row, 'col' : currNode.col})) || (currNode.isEndChildNode && visited1.has({'row': currNode.row, 'col' : currNode.col}))) {
 
-            let result = [[...visitedNodesInOrder['startPath'], ...visitedNodesInOrder['endPath']],
-            visitedNodesInOrder['endPath'][visitedNodesInOrder['endPath'].length - 1],
-            visitedNodesInOrder['startPath'][visitedNodesInOrder['startPath'].length - 1]]
-            console.log('result', result)
+        //     let result = [[...visitedNodesInOrder['startPath'], ...visitedNodesInOrder['endPath']],
+        //     visitedNodesInOrder['endPath'][visitedNodesInOrder['endPath'].length - 1],
+        //     visitedNodesInOrder['startPath'][visitedNodesInOrder['startPath'].length - 1]]
+        //     console.log('result', result)
 
-            return result
+        //     return result
 
-        }
-        let update = updateNeighbors(currNode, grid, visited1, visited2)
+        // }
+        let {update, midNode} = updateNeighbors(currNode, grid, visited1, visited2)
         if (update) {
-            let result = [
-                [...visitedNodesInOrder['startPath'], ...visitedNodesInOrder['endPath']],
-                visitedNodesInOrder['endPath'][visitedNodesInOrder['endPath'].length - 1],
-                visitedNodesInOrder['startPath'][visitedNodesInOrder['startPath'].length - 1]
-            ]
-            console.log('result', result)
-
+            let result = objectToPrettyList(visitedNodesInOrder, midNode)
             return result
         } else continue
         // updateNeighbors(currEndNode, grid2, visited2)
 
     }
+
+}
+
+function objectToPrettyList (visitedNodesInOrder, midNode) {
+    midNode.previousNode = visitedNodesInOrder['startPath'][visitedNodesInOrder['startPath'].length - 1]
+    visitedNodesInOrder['endPath'][visitedNodesInOrder['endPath'].length - 1].previous = midNode
+
+    visitedNodesInOrder['startPath'].push(midNode)
+            // let result = [
+            //     [...visitedNodesInOrder['startPath'], ...visitedNodesInOrder['endPath']],
+            //     visitedNodesInOrder['endPath'][visitedNodesInOrder['endPath'].length - 1],
+            //     visitedNodesInOrder['startPath'][visitedNodesInOrder['startPath'].length - 1]
+            // ]
+    return [...visitedNodesInOrder['startPath'], ...visitedNodesInOrder['endPath']]
+
 }
 
 
@@ -87,17 +96,16 @@ function updateNeighbors (node, grid, visited1, visited2) {
         }
         else{
             if (neighbor.distance !== Infinity) {
-                if (neighbor.isEndChildNode && node.isStartChildNode){
-                    return true
+                if ((neighbor.isEndChildNode && node.isStartChildNode) || (neighbor.isStartChildNode && node.isEndChildNode)){
+
+                    return {'update' : true, 'midNode' : neighbor}
                 }
-                if (neighbor.isStartChildNode && node.isEndChildNode) {
-                    return true
-                }
+
             }
 
         }
     }
-    return false
+    return {'update' : false, 'midNode' : null}
 }
 
 function getNeighbors(node, grid, visited1, visited2) {
