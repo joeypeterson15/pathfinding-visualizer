@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import GridNode from './Node/Node.js'
 import {dijkstra, getNodesInShortestPathOrder} from '../algorithms/dijkstra';
 import { bidirectional, getNodesInShortestPath } from '../algorithms/bidirectional.js';
+import { dfs, DFSgetNodesInShortestPath } from '../algorithms/dfs.js';
 
 
 import './PathfindingVisualizer.css'
@@ -88,6 +89,16 @@ function PathfindingVisualizer () {
         const shortestPathNodes = getNodesInShortestPath(midNode, midNeighbor);
         // const nodesInShortestPathOrder = getNodesInShortestPathOrder(endNode)
         animateDijkstra(visitedNodesInOrder, shortestPathNodes)
+      }
+
+      function visualizeDFS () {
+        const beginNode = grid[startNode.row][startNode.col];
+        const endNode = grid[finishNode.row][finishNode.col];
+        const {visitedNodesInOrder, minimumPath} = dfs(beginNode, endNode, grid)
+        // const res = bidirectional(beginNode, endNode, grid)
+        // const shortestPathNodes = DFSgetNodesInShortestPath(minimumPath);
+        // const nodesInShortestPathOrder = getNodesInShortestPathOrder(endNode)
+        animateDijkstra(visitedNodesInOrder, minimumPath)
       }
 
 
@@ -244,6 +255,9 @@ function PathfindingVisualizer () {
                 </button>
                 <button id="visualize-buttons" onClick={() => visualizeBidirectional()}>
                     Bidirectional
+                </button>
+                <button id="visualize-button-dfs" onClick={() => visualizeDFS()}>
+                    dfs
                 </button>
             <div className="grid">
                 {grid.map((row) => (

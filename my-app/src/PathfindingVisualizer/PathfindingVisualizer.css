@@ -31,6 +31,19 @@
     font-size: 20px;
     font-weight: 500;
 }
+#visualize-button-dfs {
+    position: absolute;
+    left: 5vw;
+    top: 12rem;
+    background-color: aqua;
+    color: white;
+    border: 0.2px solid rgb(214, 214, 214);
+    height: 5rem;
+    width: 11rem;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+}
 
 .left {
   left: 5vw;
