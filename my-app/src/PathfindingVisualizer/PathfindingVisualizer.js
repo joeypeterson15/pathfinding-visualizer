@@ -19,24 +19,9 @@ function PathfindingVisualizer () {
     const [finishNode, setFinishNode] = useState({row: 10, col: 35})
     const [isWeightMode, setIsWeightMode] = useState(false)
     const [visualizationMode, setVisualizationMode] = useState('grid')
+    const [visualizer, setVisualizer] = useState('Dijkstra')
     const RANDOMNODECOUNT = 110
 
-  //   function getRandomWallNodes(rowMax, colMax) {
-  //     let s = new Set()
-  //     let i = 0
-  //     while (i < 20) {
-  //       let randomRow = Math.floor(Math.random() * (rowMax));
-  //       let randomCol = Math.floor(Math.random() * colMax)
-  //       while (s.has({'row' : randomRow, 'col' : randomCol})) {
-  //         randomRow = Math.floor(Math.random() * (rowMax));
-  //         randomCol = Math.floor(Math.random() * colMax)
-  //       }
-  //       s.add({'row' : randomRow, 'col' : randomCol})
-  //       i += 1
-  //     }
-  //     console.log(s)
-  //     return s
-  // }
 
 
 
@@ -56,30 +41,6 @@ function PathfindingVisualizer () {
         i += 1
       }
       console.log(s)
-
-
-
-      // let randomRows = new Set()
-      // let randomCols = new Set()
-
-
-      // function getRandomNodes() {
-      //   let i = 0
-      //   while (i < 20) {
-      //     let randomRow = Math.floor(Math.random() * (20));
-      //     let randomCol = Math.floor(Math.random() * 50)
-      //     while (randomRows.has(randomRow) && randomCols.has(randomCol)) {
-      //       randomRow = Math.floor(Math.random() * (20));
-      //       randomCol = Math.floor(Math.random() * 50)
-      //     }
-      //     randomRows.add(randomRow)
-      //     randomCols.add(randomCol)
-      //     i += 1
-      //   }
-      //   return {randomRows, randomCols}
-      // }
-
-
 
 
       function checkRandomNode(row, col) {
@@ -311,7 +272,8 @@ function PathfindingVisualizer () {
     if (visualizationMode == "grid") return (
 
         <>
-            <button onClick={() => changeVisualizationMode()}>{visualizationMode == 'grid' ? "Tree" : "Grid"}</button>
+            {/* <button onClick={() => changeVisualizationMode()}>{visualizationMode == 'grid' ? "Tree" : "Grid"}</button> */}
+
 
 
             <div className="flex-buttons">
@@ -324,25 +286,40 @@ function PathfindingVisualizer () {
                 <button className={isFinishMode ? 'finish-mode' : 'button'} onClick={() => handleFinish()}>
                   Edit Finish Node
                 </button>
-                <button className={isWeightMode ? 'weight-mode' : 'button'} onClick={() => handleWeight()}>
+                <button className={visualizer !== 'BFS' ? isWeightMode ? 'weight-mode' : 'button': "disabled"} onClick={() => handleWeight()}>
                   Add Weight
                 </button>
                 <button className="button" onClick={resetGrid}>
                   Reset
                 </button>
+                <select className='button' id="visualizer-mode" onChange={(e) => setVisualizer(e.target.value)}>
+                  <option value="BFS">BFS</option>
+                  <option value="Bidirectional">Bidirectional</option>
+                  <option value="A*">A*</option>
+                  <option value="Dijkstra" selected>Dijkstra</option>
+                </select>
+
             </div>
+                {visualizer === 'Dijkstra' ?
+                  <button id="visualize-button" onClick={() => visualizeDijkstra()}>
+                      {visualizer}
+                  </button> : ""}
+
+                {visualizer === 'Bidirectional' ?
+                <button id="visualize-button" onClick={() => visualizeBidirectional()}>
+                    {visualizer}
+                </button> : ""}
+
+                {visualizer === 'A*' ?
+                <button id="visualize-button" onClick={() => visualizeAStar()}>
+                    {visualizer}
+                </button> : ""}
+
+                {visualizer === 'BFS' ?
                 <button id="visualize-button" onClick={() => visualizeDijkstra()}>
-                    Dijkstra
-                </button>
-                <button id="visualize-buttons" onClick={() => visualizeBidirectional()}>
-                    Bidirectional
-                </button>
-                <button id="visualize-button-dfs" onClick={() => visualizeAStar()}>
-                    A*
-                </button>
-                {/* <button id="visualize-button-dfs" onClick={() => visualizeDFS()}>
-                    dfs
-                </button> */}
+                    {visualizer}
+                </button> : ""}
+
             <div className="grid">
                 {grid.map((row) => (
                     <div>

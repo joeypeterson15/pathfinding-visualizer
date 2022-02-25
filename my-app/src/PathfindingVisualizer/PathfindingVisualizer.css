@@ -16,6 +16,7 @@
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-size: 20px;
     font-weight: 500;
+    cursor: pointer;
 }
 
 #visualize-buttons {
@@ -76,6 +77,15 @@
   font-weight: 600;
 
 }
+.weight-mode{
+  background-color: blue;
+  border: 0.1px solid rgba(223, 223, 223, 0.8);
+  border-radius: 0.2rem;
+  background-color: aliceblue;
+  padding: 1rem;
+  font-weight: 600;
+
+}
 
 .flex-buttons {
   padding-top: 1.5rem;
@@ -92,6 +102,16 @@
   background-color: aliceblue;
   color: rgb(153, 51, 99);
   padding: 1rem;
+  cursor: pointer;
+
+}
+.disabled {
+  border: 0.1px solid rgba(223, 223, 223, 0.8);
+  border-radius: 0.2rem;
+  background-color: rgb(184, 184, 184);
+  color: rgb(134, 134, 134);
+  padding: 1rem;
+  cursor: not-allowed;
 
 }
 
