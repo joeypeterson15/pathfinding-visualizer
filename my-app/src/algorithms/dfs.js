@@ -2,12 +2,12 @@
 // in which they were visited. Also makes nodes point back to their
 // previous node, effectively allowing us to compute the shortest path
 // by backtracking from the finish node.
-export function dfs(grid, startNode, finishNode) {
+export function dfs(startNode, finishNode, grid) {
 
     const DIRECTIONS = [[1, 0], [-1, 0], [0, -1], [0, 1]]
-    const grid = getAllNodes(grid);
-    const ROWS = grid.length
-    const COLS = grid[0].length
+    // const grid = getAllNodes(grid);
+    // const ROWS = grid.length
+    // const COLS = grid[0].length
 
     // q.push({'row' : startNode.row, 'col' : startNode.col})
     let visitedNodesInOrder = []
@@ -24,12 +24,12 @@ export function dfs(grid, startNode, finishNode) {
         visitedPath.push(currNode)
 
         if (currNode.row === finishNode.row && currNode.col === finishNode.col) {
-            minimumPath = (minimumPath == null || visitedPath.length < minimumPath.length) ? visitedPath : minimumPath
+            minimumPath = (minimumPath === null || visitedPath.length < minimumPath.length) ? visitedPath : minimumPath
             for (let neighbor of visitedPath) {
                 neighbor.previousNode = null
                 // neighbor.isVisited = false
             }
-            visitedPath = []
+            visitedPath = [...q]
             continue
         }
         let neighbors =  updateUnvisitedNeighbors(currNode, grid, q)
