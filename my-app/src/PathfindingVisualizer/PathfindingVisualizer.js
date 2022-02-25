@@ -19,45 +19,85 @@ function PathfindingVisualizer () {
     const [finishNode, setFinishNode] = useState({row: 10, col: 35})
     const [isWeightMode, setIsWeightMode] = useState(false)
     const [visualizationMode, setVisualizationMode] = useState('grid')
+    const RANDOMNODECOUNT = 110
 
-    function getRandomWallNodes(rowMax, colMax) {
+  //   function getRandomWallNodes(rowMax, colMax) {
+  //     let s = new Set()
+  //     let i = 0
+  //     while (i < 20) {
+  //       let randomRow = Math.floor(Math.random() * (rowMax));
+  //       let randomCol = Math.floor(Math.random() * colMax)
+  //       while (s.has({'row' : randomRow, 'col' : randomCol})) {
+  //         randomRow = Math.floor(Math.random() * (rowMax));
+  //         randomCol = Math.floor(Math.random() * colMax)
+  //       }
+  //       s.add({'row' : randomRow, 'col' : randomCol})
+  //       i += 1
+  //     }
+  //     console.log(s)
+  //     return s
+  // }
+
+
+
+    useEffect(() => {
       let s = new Set()
       let i = 0
-      while (i < 20) {
-        let randomRow = Math.floor(Math.random() * (rowMax));
-        let randomCol = Math.floor(Math.random() * colMax)
-        while (s.has({'row' : randomRow, 'col' : randomCol})) {
-          randomRow = Math.floor(Math.random() * (rowMax));
-          randomCol = Math.floor(Math.random() * colMax)
+      while (i < RANDOMNODECOUNT) {
+        let randomRow = String(Math.floor(Math.random() * (20)));
+        let randomCol = String(Math.floor(Math.random() * 50))
+        let stringToDigits = parseInt(randomRow + randomCol, 10)
+        while (s.has(stringToDigits) && randomRow !== startNode.row && randomCol !== startNode.col) {
+          randomRow = String(Math.floor(Math.random() * (20)));
+          randomCol = String(Math.floor(Math.random() * 50))
+          stringToDigits = parseInt(randomRow + randomCol, 10)
         }
-        s.add({'row' : randomRow, 'col' : randomCol})
+        s.add(stringToDigits)
         i += 1
       }
       console.log(s)
-      return s
-  }
 
-    useEffect(() => {
-      let randomRows = new Set()
-      let randomCols = new Set()
-      let i = 0
-      while (i < 20) {
-        let randomRow = Math.floor(Math.random() * (20));
-        let randomCol = Math.floor(Math.random() * 50)
-        while (randomRows.has(randomRow) && randomCols.has(randomCol)) {
-          randomRow = Math.floor(Math.random() * (20));
-          randomCol = Math.floor(Math.random() * 50)
+
+
+      // let randomRows = new Set()
+      // let randomCols = new Set()
+
+
+      // function getRandomNodes() {
+      //   let i = 0
+      //   while (i < 20) {
+      //     let randomRow = Math.floor(Math.random() * (20));
+      //     let randomCol = Math.floor(Math.random() * 50)
+      //     while (randomRows.has(randomRow) && randomCols.has(randomCol)) {
+      //       randomRow = Math.floor(Math.random() * (20));
+      //       randomCol = Math.floor(Math.random() * 50)
+      //     }
+      //     randomRows.add(randomRow)
+      //     randomCols.add(randomCol)
+      //     i += 1
+      //   }
+      //   return {randomRows, randomCols}
+      // }
+
+
+
+
+      function checkRandomNodeandDelete(row, col) {
+        if (s.has(parseInt(String(row) + String(col)))) {
+          return true
         }
-        randomRows.add(randomRow)
-        randomCols.add(randomCol)
-        i += 1
+        return false
       }
+
+
       // let randomWallNodes = new Set(getRandomWallNodes(20, 50))
         const setup = []
+        // getRandomNodes()
         // console.log(randomWallNodes)
         for (let row = 0; row < 20; row++) {
             const currentRow = []
             for (let col = 0; col < 50; col++) {
+              let isAWall = checkRandomNodeandDelete(row, col)
                 const currentNode = {
                     col,
                     row,
@@ -65,7 +105,7 @@ function PathfindingVisualizer () {
                     isFinish: row === finishNode.row && col === finishNode.col,
                     isVisited: false,
                     distance: Infinity,
-                    isWall: randomRows.has(row) && randomCols.has(col),
+                    isWall: isAWall,
                     previousNode: null,
                     isWeight: false,
                     isStartChildNode: false,
