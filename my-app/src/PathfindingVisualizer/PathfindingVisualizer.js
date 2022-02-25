@@ -82,7 +82,7 @@ function PathfindingVisualizer () {
 
 
 
-      function checkRandomNodeandDelete(row, col) {
+      function checkRandomNode(row, col) {
         if (s.has(parseInt(String(row) + String(col)))) {
           return true
         }
@@ -97,7 +97,7 @@ function PathfindingVisualizer () {
         for (let row = 0; row < 20; row++) {
             const currentRow = []
             for (let col = 0; col < 50; col++) {
-              let isAWall = checkRandomNodeandDelete(row, col)
+              let isAWall = checkRandomNode(row, col)
                 const currentNode = {
                     col,
                     row,
