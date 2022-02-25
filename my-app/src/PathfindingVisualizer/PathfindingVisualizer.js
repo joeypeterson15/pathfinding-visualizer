@@ -26,11 +26,11 @@ function PathfindingVisualizer () {
       while (i < 20) {
         let randomRow = Math.floor(Math.random() * (rowMax));
         let randomCol = Math.floor(Math.random() * colMax)
-        while (s.has([randomRow, randomCol])) {
+        while (s.has({'row' : randomRow, 'col' : randomCol})) {
           randomRow = Math.floor(Math.random() * (rowMax));
           randomCol = Math.floor(Math.random() * colMax)
         }
-        s.add([randomRow, randomCol])
+        s.add({'row' : randomRow, 'col' : randomCol})
         i += 1
       }
       console.log(s)
@@ -38,10 +38,23 @@ function PathfindingVisualizer () {
   }
 
     useEffect(() => {
-
+      let randomRows = new Set()
+      let randomCols = new Set()
+      let i = 0
+      while (i < 20) {
+        let randomRow = Math.floor(Math.random() * (20));
+        let randomCol = Math.floor(Math.random() * 50)
+        while (randomRows.has(randomRow) && randomCols.has(randomCol)) {
+          randomRow = Math.floor(Math.random() * (20));
+          randomCol = Math.floor(Math.random() * 50)
+        }
+        randomRows.add(randomRow)
+        randomCols.add(randomCol)
+        i += 1
+      }
+      // let randomWallNodes = new Set(getRandomWallNodes(20, 50))
         const setup = []
-        let randomWallNodes = new Set(getRandomWallNodes(20, 50))
-        console.log(randomWallNodes)
+        // console.log(randomWallNodes)
         for (let row = 0; row < 20; row++) {
             const currentRow = []
             for (let col = 0; col < 50; col++) {
@@ -52,7 +65,7 @@ function PathfindingVisualizer () {
                     isFinish: row === finishNode.row && col === finishNode.col,
                     isVisited: false,
                     distance: Infinity,
-                    isWall: randomWallNodes.has([row, col]),
+                    isWall: randomRows.has(row) && randomCols.has(col),
                     previousNode: null,
                     isWeight: false,
                     isStartChildNode: false,
