@@ -34,16 +34,19 @@ export function aStar(grid, startNode, finishNode) {
       neighbor.previousNode = node;
 
       if (neighbor.isWeight) {
-        neighbor.distance = node.distance + WEIGHT + h;
+        neighbor.distance = node.distance + WEIGHT + h*2;
 
       } else {
-        neighbor.distance = node.distance + 1 + h;
+        neighbor.distance = node.distance + 1 + h*2;
       }
     }
   }
 
   function heuristic(neighbor, finishNode) {
     let {row,col} = finishNode
+    // let dx = Math.abs(col - neighbor.col)
+    // let dy = Math.abs(row - neighbor.row)
+    // return dx + dy
     let dx = col - neighbor.col
     let dy = row - neighbor.row
     return Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2))
