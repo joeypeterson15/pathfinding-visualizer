@@ -169,19 +169,28 @@ function PathfindingVisualizer () {
 
         else if (isStartMode) {
           setStartNode({row, col})
-          for (let row = 0; row < 20; row++) {
-            for (let col = 0; col < 50; col++) {
-              newGrid[row][col].isStart = (row === startNode?.row && col === startNode?.col)
+          for (let r = 0; r < 20; r++) {
+            for (let c = 0; c < 50; c++) {
+              newGrid[r][c].isStart = (r === row && c === col)
             }
           }
           setGrid(newGrid)
         }
+        // else if (isStartMode) {
+        //   setStartNode({row, col})
+        //   for (let row = 0; row < 20; row++) {
+        //     for (let col = 0; col < 50; col++) {
+        //       newGrid[row][col].isStart = (row === startNode?.row && col === startNode?.col)
+        //     }
+        //   }
+        //   setGrid(newGrid)
+        // }
 
         else if (isFinishMode) {
           setFinishNode({row, col})
-          for (let row = 0; row < 20; row++) {
-            for (let col = 0; col < 50; col++) {
-              newGrid[row][col].isFinish = (row === finishNode?.row && col === finishNode?.col)
+          for (let r = 0; r < 20; r++) {
+            for (let c = 0; c < 50; c++) {
+              newGrid[r][c].isFinish = (r === row && c === col)
             }
           }
           setGrid(newGrid)
@@ -226,19 +235,46 @@ function PathfindingVisualizer () {
         }
       }
 
+      function newMaze () {
+            let s = new Set()
+            let i = 0
+            while (i < RANDOMNODECOUNT) {
+              let randomRow = String(Math.floor(Math.random() * (20)));
+              let randomCol = String(Math.floor(Math.random() * 50))
+              let stringToDigits = parseInt(randomRow + randomCol, 10)
+              while (s.has(stringToDigits) && randomRow !== startNode.row && randomCol !== startNode.col) {
+                randomRow = String(Math.floor(Math.random() * (20)));
+                randomCol = String(Math.floor(Math.random() * 50))
+                stringToDigits = parseInt(randomRow + randomCol, 10)
+              }
+              s.add(stringToDigits)
+              i += 1
+          }
+          return s
+        }
+
+
+      function checkRandomNode(s, row, col) {
+            if (s.has(parseInt(String(row) + String(col)))) {
+              return true
+            }
+            return false
+          }
 
       function resetGrid() {
         setIsStartMode(false)
         setIsWallMode(false)
         setIsFinishMode(false)
+        const maze = newMaze()
         const newGrid = []
         for (let row = 0; row < 20; row++) {
           let currentRow = []
           for (let col = 0; col < 50; col++) {
+            let isAWall = checkRandomNode(maze, row, col)
             const node = {
               row,
               col,
-              isWall : false,
+              isWall : isAWall,
               isStart : col === startNode?.col && row === startNode?.row,
               isFinish : col === finishNode?.col && row === finishNode?.row,
               isVisited: false,
@@ -247,6 +283,7 @@ function PathfindingVisualizer () {
               isWeight: false,
               isStartChildNode: false,
               isFinishChildNode: false,
+
             }
             currentRow.push(node)
           }
@@ -286,7 +323,7 @@ function PathfindingVisualizer () {
                 <button className={isFinishMode ? 'finish-mode' : 'button'} onClick={() => handleFinish()}>
                   Edit Finish Node
                 </button>
-                <button className={visualizer !== 'BFS' ? isWeightMode ? 'weight-mode' : 'button': "disabled"} onClick={() => handleWeight()}>
+                <button className={visualizer !== 'BFS' ? isWeightMode ? 'weight-mode' : 'button': "no-cursor disabled"} onClick={() => handleWeight()}>
                   Add Weight
                 </button>
                 <button className="button" onClick={resetGrid}>

@@ -52,38 +52,48 @@
 }
 
 .wall-mode{
-  background-color: blue;
+  /* background-color: blue; */
   border: 0.1px solid rgba(223, 223, 223, 0.8);
   border-radius: 0.2rem;
   background-color: aliceblue;
   padding: 1rem;
   font-weight: 600;
+  width: 7rem;
+
 }
 .start-mode{
-  background-color: blue;
+  /* background-color: blue; */
   border: 0.1px solid rgba(223, 223, 223, 0.8);
   border-radius: 0.2rem;
   background-color: aliceblue;
   padding: 1rem;
-  font-weight: 600;
+  font-weight: 700;
+  color: green;
+  width: 7rem;
+
 
 }
 .finish-mode{
-  background-color: blue;
+  /* background-color: blue; */
   border: 0.1px solid rgba(223, 223, 223, 0.8);
   border-radius: 0.2rem;
   background-color: aliceblue;
   padding: 1rem;
   font-weight: 600;
+  color: red;
+  width: 7rem;
+
 
 }
 .weight-mode{
-  background-color: blue;
+  /* background-color: blue; */
   border: 0.1px solid rgba(223, 223, 223, 0.8);
   border-radius: 0.2rem;
   background-color: aliceblue;
   padding: 1rem;
+  width: 7rem;
   font-weight: 600;
+  color: orange
 
 }
 
@@ -103,6 +113,7 @@
   color: rgb(153, 51, 99);
   padding: 1rem;
   cursor: pointer;
+  width: 7rem;
 
 }
 .disabled {
@@ -111,8 +122,14 @@
   background-color: rgb(184, 184, 184);
   color: rgb(134, 134, 134);
   padding: 1rem;
-  cursor: not-allowed;
 
+  width: 7rem;
+  pointer-events: none;
+
+}
+
+.no-cursor {
+  cursor: not-allowed;
 }
 
 
