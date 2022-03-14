@@ -1,7 +1,9 @@
 .grid {
 
-    margin-left: 6rem;
+    margin-left: 6.5vw;
     padding-top: 3rem;
+    /* background-color: red; */
+    /* width: 80vw; */
   }
 
 #visualize-button {
